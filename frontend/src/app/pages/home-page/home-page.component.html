@@ -1,58 +1,95 @@
-<h1>Boletim</h1>
+<h1 class="page-title">
+    <span class="icon">📘</span>
+    Boletim
+</h1>
 
-<div>
-    <label for="turma">Turma:</label>
-    <select id="turma" (change)="onTurmaChange($event)">
-        <option value="">Selecione uma turma</option>
-        <option *ngFor="let turma of turmas" [value]="turma.id">
-            {{ turma.nome }}
-        </option>
-    </select>
+<div class="card">
+    <div class="form-grid">
+        <div class="field">
+            <label for="turma">Turma</label>
+            <select id="turma" (change)="onTurmaChange($event)">
+                <option value="">Selecione uma turma</option>
+                <option *ngFor="let turma of turmas" [value]="turma.id">
+                    {{ turma.nome }}
+                </option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="disciplina">Disciplina</label>
+            <select id="disciplina" (change)="onDisciplinaChange($event)">
+                <option value="">Selecione uma disciplina</option>
+                <option *ngFor="let disciplina of disciplinas" [value]="disciplina.id">
+                    {{ disciplina.nome }}
+                </option>
+            </select>
+        </div>
+
+        <div class="field actions">
+            <button
+                (click)="carregarBoletim()"
+                [disabled]="!turmaSelecionadaId || !disciplinaSelecionadaId">
+                📊 Carregar Boletim
+            </button>
+        </div>
+    </div>
 </div>
 
-<div>
-    <label for="disciplina">Disciplina:</label>
-    <select id="disciplina" (change)="onDisciplinaChange($event)">
-        <option value="">Selecione uma disciplina</option>
-        <option *ngFor="let disciplina of disciplinas" [value]="disciplina.id">
-            {{ disciplina.nome }}
-        </option>
-    </select>
+<div class="table-actions" *ngIf="boletimAgrupado.length > 0">
+    <button *ngIf="!modoEdicao" (click)="ativarEdicao()">
+        ✏️ Editar
+    </button>
+
+    <button *ngIf="modoEdicao" (click)="salvarBoletim()">
+        💾 Salvar
+    </button>
+
+    <button *ngIf="modoEdicao" class="secondary" (click)="cancelarEdicao()">
+        ❌ Cancelar
+    </button>
 </div>
 
-<button (click)="carregarBoletim()" [disabled]="!turmaSelecionadaId || !disciplinaSelecionadaId">
-    Carregar Boletim
-</button>
+<div class="table-card" *ngIf="boletimAgrupado.length > 0">
+    <table>
+        <thead>
+            <tr>
+                <th>Aluno</th>
 
-<hr />
+                <th *ngFor="let av of boletimAgrupado[0].avaliacoes">
+                    {{ av.titulo }}
+                    <span class="peso">(Peso {{ av.peso }})</span>
+                </th>
 
-<table *ngIf="boletimAgrupado.length > 0" border="1">
-    <thead>
-        <tr>
-            <th>Aluno</th>
+                <th>Média</th>
+            </tr>
+        </thead>
 
-            <th *ngFor="let av of boletimAgrupado[0].avaliacoes">
-                {{ av.titulo }} (Peso {{ av.peso }})
-            </th>
+        <tbody>
+            <tr *ngFor="let aluno of boletimAgrupado">
+                <td class="aluno">
+                    👤 {{ aluno.alunoNome }}
+                </td>
 
-            <th>Média</th>
-        </tr>
-    </thead>
+                <td *ngFor="let av of aluno.avaliacoes" class="nota">
+                    <span *ngIf="!modoEdicao">
+                        {{ av.nota ?? '-' }}
+                    </span>
 
-    <tbody>
-        <tr *ngFor="let aluno of boletimAgrupado">
-            <td>{{ aluno.alunoNome }}</td>
+                    <input
+                        *ngIf="modoEdicao"
+                        type="number"
+                        min="0"
+                        max="10"
+                        step="0.1"
+                        [(ngModel)]="av.nota"
+                        (input)="recalcularMedia(aluno)"
+                    />
+                </td>
 
-            <td *ngFor="let av of aluno.avaliacoes">
-                {{ av.nota }}
-            </td>
-
-            <td>{{ aluno.mediaPonderada }}</td>
-        </tr>
-    </tbody>
-</table>
-
-
-<p *ngIf="boletins.length === 0">
-    Nenhum dado de boletim carregado.
-</p>
+                <td class="media">
+                    {{ aluno.mediaPonderada ?? '-' }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,6 +1,6 @@
 export interface IAvaliacao {
     id: number;
     disciplinaId: number;
-    pese: number;
+    peso: number;
     titulo: string;
 }
