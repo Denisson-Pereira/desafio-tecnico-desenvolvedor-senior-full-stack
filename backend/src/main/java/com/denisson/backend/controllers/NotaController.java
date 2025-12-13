@@ -5,13 +5,14 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.denisson.backend.domain.dtos.UpdateNotasDTO;
 import com.denisson.backend.domain.models.Nota;
 import com.denisson.backend.domain.useCases.notas.CreateOrUpdateNotaUseCase;
 import com.denisson.backend.domain.useCases.notas.DeleteNotaUseCase;
 import com.denisson.backend.domain.useCases.notas.FindAllNotasUseCase;
 import com.denisson.backend.domain.useCases.notas.FindNotasByAlunoUseCase;
 import com.denisson.backend.domain.useCases.notas.FindNotasByAvaliacaoUseCase;
-
+import com.denisson.backend.domain.useCases.notas.UpdateNotasUseCase;
 
 @RestController
 @RequestMapping("notas")
@@ -22,6 +23,7 @@ public class NotaController {
     private final FindNotasByAvaliacaoUseCase findNotasByAvaliacaoUseCase;
     private final CreateOrUpdateNotaUseCase createOrUpdateNotaUseCase;
     private final DeleteNotaUseCase deleteNotaUseCase;
+    private final UpdateNotasUseCase updateNotasUseCase;
 
     public NotaController(
             FindAllNotasUseCase findAllNotasUseCase,
@@ -34,6 +36,7 @@ public class NotaController {
         this.findNotasByAvaliacaoUseCase = findNotasByAvaliacaoUseCase;
         this.createOrUpdateNotaUseCase = createOrUpdateNotaUseCase;
         this.deleteNotaUseCase = deleteNotaUseCase;
+        this.updateNotasUseCase = null;
     }
 
     @GetMapping
@@ -72,5 +75,14 @@ public class NotaController {
     public ResponseEntity<Void> deleteByAlunoAndAvaliacao(@PathVariable Long alunoId, @PathVariable Long avaliacaoId) {
         deleteNotaUseCase.executeByAlunoAndAvaliacao(alunoId, avaliacaoId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> updateNotas(
+            @PathVariable Long turmaId,
+            @PathVariable Long disciplinaId,
+            @RequestBody UpdateNotasDTO updateNotasDTO) {
+        updateNotasUseCase.execute(updateNotasDTO);
+        return ResponseEntity.ok().build();
     }
 }

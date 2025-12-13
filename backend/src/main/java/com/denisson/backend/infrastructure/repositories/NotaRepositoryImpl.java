@@ -14,7 +14,6 @@ import com.denisson.backend.domain.dtos.AlunoAvaliacaoNotaDTO;
 import com.denisson.backend.domain.models.Nota;
 import com.denisson.backend.domain.repositories.INotaRepository;
 
-
 @Repository
 public class NotaRepositoryImpl implements INotaRepository {
 
@@ -136,11 +135,25 @@ public class NotaRepositoryImpl implements INotaRepository {
             if (totalNotas != null && totalPesos != null && totalPesos > 0) {
                 dto.setMediaPonderada(totalNotas.divide(BigDecimal.valueOf(totalPesos), 2, BigDecimal.ROUND_HALF_UP));
             } else {
-                dto.setMediaPonderada(null); 
+                dto.setMediaPonderada(null);
             }
         }
 
         return lista;
+    }
+
+    @Override
+    public void saveAll(List<Nota> notas) {
+        String sqlUpdate = "UPDATE nota SET valor = ?, updated_at = NOW() WHERE aluno_id = ? AND avaliacao_id = ?";
+        String sqlInsert = "INSERT INTO nota (aluno_id, avaliacao_id, valor, updated_at) " +
+                "VALUES (?, ?, ?, NOW())";
+
+        for (Nota nota : notas) {
+            int updated = jdbcTemplate.update(sqlUpdate, nota.getValor(), nota.getAlunoId(), nota.getAvaliacaoId());
+            if (updated == 0) { 
+                jdbcTemplate.update(sqlInsert, nota.getAlunoId(), nota.getAvaliacaoId(), nota.getValor());
+            }
+        }
     }
 
 }

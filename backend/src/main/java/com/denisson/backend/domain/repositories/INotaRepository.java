@@ -23,4 +23,6 @@ public interface INotaRepository {
     void deleteByAlunoIdAndAvaliacaoId(Long alunoId, Long avaliacaoId);
 
     List<AlunoAvaliacaoNotaDTO> findAlunosWithAvaliacoesNotasAndMedia(Long turmaId, Long disciplinaId);
+
+    void saveAll(List<Nota> notas);
 }

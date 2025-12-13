@@ -10,6 +10,7 @@ import com.denisson.backend.domain.useCases.notas.FindAllNotasUseCase;
 import com.denisson.backend.domain.useCases.notas.FindAlunosWithAvaliacoesNotasAndMediaUseCase;
 import com.denisson.backend.domain.useCases.notas.FindNotasByAlunoUseCase;
 import com.denisson.backend.domain.useCases.notas.FindNotasByAvaliacaoUseCase;
+import com.denisson.backend.domain.useCases.notas.UpdateNotasUseCase;
 
 @Configuration
 public class NotaConf {
@@ -48,5 +49,10 @@ public class NotaConf {
     @Bean
     public FindAlunosWithAvaliacoesNotasAndMediaUseCase findAlunosWithAvaliacoesNotasAndMediaUseCase() {
         return new FindAlunosWithAvaliacoesNotasAndMediaUseCase(notaInterface);
+    }
+
+    @Bean
+    public UpdateNotasUseCase updateNotasUseCase() {
+        return new UpdateNotasUseCase(notaInterface);
     }
 }
