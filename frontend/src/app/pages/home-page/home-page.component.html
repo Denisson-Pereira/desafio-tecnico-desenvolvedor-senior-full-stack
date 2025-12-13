@@ -1,2 +1,58 @@
-<p>home-page works!</p>
-<p>{{ apiUrl }}</p>
+<h1>Boletim</h1>
+
+<div>
+    <label for="turma">Turma:</label>
+    <select id="turma" (change)="onTurmaChange($event)">
+        <option value="">Selecione uma turma</option>
+        <option *ngFor="let turma of turmas" [value]="turma.id">
+            {{ turma.nome }}
+        </option>
+    </select>
+</div>
+
+<div>
+    <label for="disciplina">Disciplina:</label>
+    <select id="disciplina" (change)="onDisciplinaChange($event)">
+        <option value="">Selecione uma disciplina</option>
+        <option *ngFor="let disciplina of disciplinas" [value]="disciplina.id">
+            {{ disciplina.nome }}
+        </option>
+    </select>
+</div>
+
+<button (click)="carregarBoletim()" [disabled]="!turmaSelecionadaId || !disciplinaSelecionadaId">
+    Carregar Boletim
+</button>
+
+<hr />
+
+<table *ngIf="boletimAgrupado.length > 0" border="1">
+    <thead>
+        <tr>
+            <th>Aluno</th>
+
+            <th *ngFor="let av of boletimAgrupado[0].avaliacoes">
+                {{ av.titulo }} (Peso {{ av.peso }})
+            </th>
+
+            <th>Média</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let aluno of boletimAgrupado">
+            <td>{{ aluno.alunoNome }}</td>
+
+            <td *ngFor="let av of aluno.avaliacoes">
+                {{ av.nota }}
+            </td>
+
+            <td>{{ aluno.mediaPonderada }}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<p *ngIf="boletins.length === 0">
+    Nenhum dado de boletim carregado.
+</p>
