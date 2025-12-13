@@ -9,6 +9,7 @@ import { IBoletimAlunoView } from 'src/app/interfaces/IBoletimAlunoView';
 import { agruparBoletimPorAluno } from 'src/app/utils/agruparBoletimPorAluno';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { UpdateNotasDTO } from 'src/app/dtos/UpdateNotasDTO';
 
 @Component({
   selector: 'app-home-page',
@@ -99,18 +100,32 @@ export class HomePageComponent {
   }
 
   salvarBoletim() {
-    const payload = this.boletimAgrupado.flatMap(aluno =>
-      aluno.avaliacoes.map(av => ({
-        alunoId: aluno.alunoId,
-        avaliacaoId: av.avaliacaoId,
-        nota: av.nota
-      }))
-    );
+    if (!this.turmaSelecionadaId || !this.disciplinaSelecionadaId) return;
+    
+    const payload: UpdateNotasDTO = {
+      notas: this.boletimAgrupado.flatMap(aluno =>
+        aluno.avaliacoes.map(av => ({
+          alunoId: aluno.alunoId,
+          avaliacaoId: av.avaliacaoId,
+          valor: av.nota 
+        }))
+      )
+    };
+    console.log(payload)
 
-    /*     this.boletimService.salvarNotasEmLote(payload).subscribe(() => {
+    this.getAllBoletimService
+      .updateNotas(this.turmaSelecionadaId, this.disciplinaSelecionadaId, payload)
+      .subscribe({
+        next: () => {
           this.modoEdicao = false;
-        }); */
+          console.log('Notas salvas com sucesso!');
+        },
+        error: (err) => {
+          console.error('Erro ao salvar notas:', err);
+        }
+      });
   }
+
 
 
 }
