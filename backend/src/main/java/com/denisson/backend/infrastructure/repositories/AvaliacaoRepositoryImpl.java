@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.denisson.backend.domain.exceptions.DatabaseException;
 import com.denisson.backend.domain.models.Avaliacao;
 import com.denisson.backend.domain.repositories.IAvaliacaoRepository;
 
@@ -38,8 +39,14 @@ public class AvaliacaoRepositoryImpl implements IAvaliacaoRepository {
 
     @Override
     public Avaliacao findById(Long id) {
-        String sql = "SELECT * FROM avaliacao WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[] { id }, mapAvaliacao());
+        try {
+            String sql = "SELECT * FROM avaliacao WHERE id = ?";
+            return jdbcTemplate.queryForObject(sql, new Object[] { id }, mapAvaliacao());
+        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
+            return null;
+        } catch (Exception e) {
+            throw new DatabaseException("Erro ao buscar turma id=" + id, e);
+        }
     }
 
     @Override
