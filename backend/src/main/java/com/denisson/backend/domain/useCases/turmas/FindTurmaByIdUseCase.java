@@ -1,5 +1,6 @@
 package com.denisson.backend.domain.useCases.turmas;
 
+import com.denisson.backend.domain.exceptions.NotFoundException;
 import com.denisson.backend.domain.models.Turma;
 import com.denisson.backend.domain.repositories.ITurmaRepository;
 
@@ -12,6 +13,10 @@ public class FindTurmaByIdUseCase {
     }
 
     public Turma execute(Long id) {
-        return repository.findById(id);
+        Turma turma = repository.findById(id);
+        if (turma == null) {
+            throw new NotFoundException("Turma não encontrada com id " + id);
+        }
+        return turma;
     }
 }

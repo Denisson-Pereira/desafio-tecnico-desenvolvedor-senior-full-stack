@@ -8,9 +8,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.denisson.backend.domain.exceptions.DatabaseException;
 import com.denisson.backend.domain.models.Turma;
 import com.denisson.backend.domain.repositories.ITurmaRepository;
-
 
 @Repository
 public class TurmaRepositoryImpl implements ITurmaRepository {
@@ -37,19 +37,25 @@ public class TurmaRepositoryImpl implements ITurmaRepository {
 
     @Override
     public Turma findById(Long id) {
-        String sql = "SELECT * FROM turma WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[] { id }, (rs, rowNum) -> {
-            Turma turma = new Turma();
-            turma.setId(rs.getLong("id"));
-            turma.setNome(rs.getString("nome"));
-            return turma;
-        });
+        try {
+            String sql = "SELECT * FROM turma WHERE id = ?";
+            return jdbcTemplate.queryForObject(sql, new Object[] { id }, (rs, rowNum) -> {
+                Turma turma = new Turma();
+                turma.setId(rs.getLong("id"));
+                turma.setNome(rs.getString("nome"));
+                return turma;
+            });
+        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
+            return null;
+        } catch (Exception e) {
+            throw new DatabaseException("Erro ao buscar turma id=" + id, e);
+        }
     }
 
     @Override
     public Turma save(Turma turma) {
-        String sql = "INSERT INTO turma (id, nome) VALUES (?, ?)";
-        jdbcTemplate.update(sql, turma.getId(), turma.getNome());
+        String sql = "INSERT INTO turma (nome) VALUES (?)";
+        jdbcTemplate.update(sql, turma.getNome());
         return turma;
     }
 
@@ -64,6 +70,23 @@ public class TurmaRepositoryImpl implements ITurmaRepository {
     public void delete(Long id) {
         String sql = "DELETE FROM turma WHERE id = ?";
         jdbcTemplate.update(sql, id);
+    }
+
+    @Override
+    public Turma findByNome(String nome) {
+        try {
+            String sql = "SELECT * FROM turma WHERE nome = ?";
+            return jdbcTemplate.queryForObject(sql, new Object[] { nome }, (rs, rowNum) -> {
+                Turma turma = new Turma();
+                turma.setId(rs.getLong("id"));
+                turma.setNome(rs.getString("nome"));
+                return turma;
+            });
+        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
+            return null; 
+        } catch (Exception e) {
+            throw new DatabaseException("Erro ao buscar turma pelo nome", e);
+        }
     }
 
 }

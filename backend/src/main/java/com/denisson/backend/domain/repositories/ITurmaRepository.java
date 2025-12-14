@@ -14,4 +14,6 @@ public interface ITurmaRepository {
     Turma update(Turma turma);
 
     void delete(Long id);
+
+    Turma findByNome(String nome);
 }

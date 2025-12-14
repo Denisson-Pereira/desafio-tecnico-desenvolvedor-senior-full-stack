@@ -46,7 +46,8 @@ public class TurmaControllers {
 
     @GetMapping("/{id}")
     public ResponseEntity<Turma> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(findTurmaByIdUseCase.execute(id));
+        Turma turma = findTurmaByIdUseCase.execute(id);
+        return ResponseEntity.ok(turma);
     }
 
     @PostMapping
