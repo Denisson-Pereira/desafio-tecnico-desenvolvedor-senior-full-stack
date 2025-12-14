@@ -49,3 +49,5 @@ INSERT INTO nota (aluno_id, avaliacao_id, valor) VALUES
   (4, 10, 9.3), (4, 11, 9.0), (4, 12, 9.7),
   (5, 10, 7.5), (5, 11, 7.0), (5, 12, 8.1),
   (6, 10, 6.3), (6, 11, 7.2), (6, 12, 6.8);
+
+ALTER TABLE avaliacao ALTER COLUMN id RESTART WITH 13; 

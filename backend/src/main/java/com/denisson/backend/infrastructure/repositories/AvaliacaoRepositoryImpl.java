@@ -10,8 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.denisson.backend.domain.models.Avaliacao;
 import com.denisson.backend.domain.repositories.IAvaliacaoRepository;
 
-
-
 @Repository
 public class AvaliacaoRepositoryImpl implements IAvaliacaoRepository {
 
@@ -41,26 +39,37 @@ public class AvaliacaoRepositoryImpl implements IAvaliacaoRepository {
     @Override
     public Avaliacao findById(Long id) {
         String sql = "SELECT * FROM avaliacao WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, mapAvaliacao());
+        return jdbcTemplate.queryForObject(sql, new Object[] { id }, mapAvaliacao());
     }
 
     @Override
     public List<Avaliacao> findByDisciplinaId(Long disciplinaId) {
         String sql = "SELECT * FROM avaliacao WHERE disciplina_id = ?";
-        return jdbcTemplate.query(sql, new Object[]{disciplinaId}, mapAvaliacao());
+        return jdbcTemplate.query(sql, new Object[] { disciplinaId }, mapAvaliacao());
     }
 
     @Override
     public Avaliacao save(Avaliacao avaliacao) {
-        String sql = "INSERT INTO avaliacao (id, titulo, peso, disciplina_id) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, avaliacao.getId(), avaliacao.getTitulo(), avaliacao.getPeso(), avaliacao.getDisciplinaId());
+        String checkSql = "SELECT COUNT(*) FROM avaliacao WHERE titulo = ? AND disciplina_id = ?";
+        Integer count = jdbcTemplate.queryForObject(checkSql, Integer.class,
+                avaliacao.getTitulo(), avaliacao.getDisciplinaId());
+
+        if (count != null && count > 0) {
+            throw new IllegalArgumentException(
+                    "Já existe uma avaliação com este título nesta disciplina.");
+        }
+
+        String sql = "INSERT INTO avaliacao (titulo, peso, disciplina_id) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, avaliacao.getTitulo(), avaliacao.getPeso(), avaliacao.getDisciplinaId());
+
         return avaliacao;
     }
 
     @Override
     public Avaliacao update(Avaliacao avaliacao) {
         String sql = "UPDATE avaliacao SET titulo = ?, peso = ?, disciplina_id = ? WHERE id = ?";
-        jdbcTemplate.update(sql, avaliacao.getTitulo(), avaliacao.getPeso(), avaliacao.getDisciplinaId(), avaliacao.getId());
+        jdbcTemplate.update(sql, avaliacao.getTitulo(), avaliacao.getPeso(), avaliacao.getDisciplinaId(),
+                avaliacao.getId());
         return avaliacao;
     }
 

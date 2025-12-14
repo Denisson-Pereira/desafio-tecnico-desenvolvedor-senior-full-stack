@@ -1,6 +1,8 @@
 package com.denisson.backend.controllers;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,8 +56,19 @@ public class AvaliacaoController {
     }
 
     @PostMapping
-    public ResponseEntity<Avaliacao> create(@RequestBody Avaliacao avaliacao) {
-        return ResponseEntity.ok(createAvaliacaoUseCase.execute(avaliacao));
+    public ResponseEntity<?> create(@RequestBody Avaliacao avaliacao) {
+        try {
+            Avaliacao created = createAvaliacaoUseCase.execute(avaliacao);
+            return ResponseEntity.ok(created);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(500)
+                    .body(Map.of("error", "Erro interno do servidor"));
+        }
     }
 
     @PutMapping("/{id}")

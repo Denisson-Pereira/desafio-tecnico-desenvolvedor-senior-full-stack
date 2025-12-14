@@ -16,7 +16,7 @@ CREATE TABLE aluno (
 );
 
 CREATE TABLE avaliacao (
-  id BIGINT PRIMARY KEY,
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
   titulo VARCHAR(200) NOT NULL,
   peso INT NOT NULL CHECK (peso >= 1 AND peso <= 5),
   disciplina_id BIGINT NOT NULL,

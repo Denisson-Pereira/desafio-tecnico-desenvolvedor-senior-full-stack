@@ -26,9 +26,7 @@
         </div>
 
         <div class="field actions">
-            <button
-                (click)="carregarBoletim()"
-                [disabled]="!turmaSelecionadaId || !disciplinaSelecionadaId">
+            <button (click)="carregarBoletim()" [disabled]="!turmaSelecionadaId || !disciplinaSelecionadaId">
                 📊 Carregar Boletim
             </button>
         </div>
@@ -40,6 +38,10 @@
         ✏️ Editar
     </button>
 
+    <button (click)="mostrarFormularioNovaAvaliacao = !mostrarFormularioNovaAvaliacao">
+        ✚ Adicionar Avaliação
+    </button>
+
     <button *ngIf="modoEdicao" (click)="salvarBoletim()">
         💾 Salvar
     </button>
@@ -48,6 +50,15 @@
         ❌ Cancelar
     </button>
 </div>
+
+<div *ngIf="mostrarFormularioNovaAvaliacao" class="form-nova-avaliacao">
+    <input type="text" placeholder="Nome da Avaliação" [(ngModel)]="novaAvaliacaoNome" />
+    <input type="number" placeholder="Peso (1-5)" [(ngModel)]="novaAvaliacaoPeso" min="1" max="5" />
+    <button (click)="criarAvaliacao(novaAvaliacaoNome, novaAvaliacaoPeso)">
+        💾 Criar
+    </button>
+</div>
+
 
 <div class="table-card" *ngIf="boletimAgrupado.length > 0">
     <table>
@@ -75,15 +86,8 @@
                         {{ av.nota ?? '-' }}
                     </span>
 
-                    <input
-                        *ngIf="modoEdicao"
-                        type="number"
-                        min="0"
-                        max="10"
-                        step="0.1"
-                        [(ngModel)]="av.nota"
-                        (input)="recalcularMedia(aluno)"
-                    />
+                    <input *ngIf="modoEdicao" type="number" min="0" max="10" step="0.1" [(ngModel)]="av.nota"
+                        (input)="recalcularMedia(aluno)" />
                 </td>
 
                 <td class="media">

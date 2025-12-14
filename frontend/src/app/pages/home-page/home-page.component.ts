@@ -10,6 +10,8 @@ import { agruparBoletimPorAluno } from 'src/app/utils/agruparBoletimPorAluno';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UpdateNotasDTO } from 'src/app/dtos/UpdateNotasDTO';
+import { CreateAvaliacaoService } from 'src/app/services/avaliacoes/create-avaliacao-service.service';
+import { CreateAvaliacaoDTO } from 'src/app/dtos/CreateAvaliacaoDTO';
 
 @Component({
   selector: 'app-home-page',
@@ -34,10 +36,15 @@ export class HomePageComponent {
   turmaSelecionadaId: number | null = null;
   disciplinaSelecionadaId: number | null = null;
 
+  mostrarFormularioNovaAvaliacao = false;
+  novaAvaliacaoNome = '';
+  novaAvaliacaoPeso: number = 1;
+
   constructor(
     private getAllTurmasService: GetAllTurmasServiceService,
     private getAllDisciplinas: GetAllDisciplinasServiceService,
-    private getAllBoletimService: GetAllBoletimServiceService
+    private getAllBoletimService: GetAllBoletimServiceService,
+    private createAvaliacoesService: CreateAvaliacaoService
   ) { }
 
   ngOnInit(): void {
@@ -139,7 +146,45 @@ export class HomePageComponent {
       });
   }
 
+  criarAvaliacao(titulo: string, peso: number) {
+    if (!this.disciplinaSelecionadaId) {
+      alert('Selecione uma disciplina antes de criar uma avaliação.');
+      return;
+    }
 
+    if (peso < 1 || peso > 5) {
+      alert('O peso da avaliação deve ser entre 1 e 5.');
+      return;
+    }
+
+    if (titulo.length == 0) {
+      alert('A avaliação deve ter um título.')
+    }
+
+    const payload: CreateAvaliacaoDTO = {
+      titulo: titulo,
+      peso: peso,
+      disciplinaId: this.disciplinaSelecionadaId
+    };
+
+    this.createAvaliacoesService.create(payload).subscribe({
+      next: (novaAvaliacao) => {
+        alert(`Avaliação "${novaAvaliacao.titulo}" criada com sucesso!`);
+        this.carregarBoletim();
+        this.mostrarFormularioNovaAvaliacao = false;
+      },
+      error: (err) => {
+        console.error('Erro ao criar avaliação:', err);
+
+        if (err.status === 400 && err.error?.error) {
+          alert('Erro de validação: ' + err.error.error);
+        } else {
+          alert('Erro ao criar avaliação. Tente novamente.');
+        }
+      }
+
+    });
+  }
 
 
 }
