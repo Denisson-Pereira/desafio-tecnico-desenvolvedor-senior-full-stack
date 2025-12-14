@@ -16,4 +16,7 @@ public interface IAlunoRepository {
     Aluno update(Aluno aluno);
 
     void delete(Long id);
+
+    Aluno findByNome(String nome);
+
 }

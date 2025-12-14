@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.denisson.backend.domain.exceptions.DatabaseException;
 import com.denisson.backend.domain.models.Aluno;
 import com.denisson.backend.domain.repositories.IAlunoRepository;
 
@@ -27,20 +28,26 @@ public class AlunoRepositoryImpl implements IAlunoRepository {
 
     @Override
     public Aluno findById(Long id) {
-        String sql = "SELECT * FROM aluno WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, mapAluno());
+        try {
+            String sql = "SELECT * FROM aluno WHERE id = ?";
+            return jdbcTemplate.queryForObject(sql, new Object[] { id }, mapAluno());
+        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
+            return null;
+        } catch (Exception e) {
+            throw new DatabaseException("Erro ao buscar turma id=" + id, e);
+        }
     }
 
     @Override
     public List<Aluno> findByTurmaId(Long turmaId) {
         String sql = "SELECT * FROM aluno WHERE turma_id = ?";
-        return jdbcTemplate.query(sql, new Object[]{turmaId}, mapAluno());
+        return jdbcTemplate.query(sql, new Object[] { turmaId }, mapAluno());
     }
 
     @Override
     public Aluno save(Aluno aluno) {
-        String sql = "INSERT INTO aluno (id, nome, turma_id) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, aluno.getId(), aluno.getNome(), aluno.getTurmaId());
+        String sql = "INSERT INTO aluno (nome, turma_id) VALUES (?, ?)";
+        jdbcTemplate.update(sql, aluno.getNome(), aluno.getTurmaId());
         return aluno;
     }
 
@@ -65,5 +72,22 @@ public class AlunoRepositoryImpl implements IAlunoRepository {
             aluno.setTurmaId(rs.getLong("turma_id"));
             return aluno;
         };
+    }
+
+    @Override
+    public Aluno findByNome(String nome) {
+        try {
+            String sql = "SELECT * FROM aluno WHERE nome = ?";
+            return jdbcTemplate.queryForObject(sql, new Object[] { nome }, (rs, rowNum) -> {
+                Aluno aluno = new Aluno();
+                aluno.setId(rs.getLong("id"));
+                aluno.setNome(rs.getString("nome"));
+                return aluno;
+            });
+        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
+            return null;
+        } catch (Exception e) {
+            throw new DatabaseException("Erro ao buscar Alunos pelo nome", e);
+        }
     }
 }
