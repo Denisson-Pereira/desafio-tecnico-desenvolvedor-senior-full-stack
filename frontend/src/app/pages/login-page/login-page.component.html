@@ -1,29 +1,34 @@
-<div class="login-container">
-  <h2>Login</h2>
-
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input id="email" type="email" formControlName="email" />
-      <div class="error" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
-        <small *ngIf="loginForm.get('email')?.errors?.['required']">Email é obrigatório.</small>
-        <small *ngIf="loginForm.get('email')?.errors?.['email']">Email inválido.</small>
-      </div>
+<div class="login-page">
+  <div class="login-left">
+    <div class="login-header">
+      <h1>Boletim PRO</h1>
+      <p>Bem-vindo de volta. Por favor, insira seus dados.</p>
     </div>
 
-    <div class="form-group">
-      <label for="senha">Senha</label>
-      <input id="senha" type="password" formControlName="senha" />
-      <div class="error" *ngIf="loginForm.get('senha')?.touched && loginForm.get('senha')?.invalid">
-        <small *ngIf="loginForm.get('senha')?.errors?.['required']">Senha é obrigatória.</small>
-        <small *ngIf="loginForm.get('senha')?.errors?.['minlength']">Senha deve ter ao menos 6 caracteres.</small>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input id="email" type="email" formControlName="email" placeholder="you@example.com">
+        <div class="error" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+          <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</small>
+          <small *ngIf="loginForm.get('email')?.errors?.['email']">Email is invalid</small>
+        </div>
       </div>
-    </div>
 
-    <button type="submit">Entrar</button>
-  </form>
+      <div class="form-group">
+        <label for="senha">Password</label>
+        <input id="senha" type="password" formControlName="senha" placeholder="••••••">
+        <div class="error" *ngIf="loginForm.get('senha')?.touched && loginForm.get('senha')?.invalid">
+          <small *ngIf="loginForm.get('senha')?.errors?.['required']">Password is required</small>
+          <small *ngIf="loginForm.get('senha')?.errors?.['minlength']">Password must be at least 6 characters</small>
+        </div>
+      </div>
 
-  <div class="login-error" *ngIf="loginError">
-    {{ loginError }}
+      <button type="submit">Sign in</button>
+
+    </form>
+  </div>
+
+  <div class="login-right">
   </div>
 </div>
