@@ -1,2 +1,5 @@
 #!/bin/sh
-mvn test
+set -e
+
+echo "Running backend tests..."
+mvn -f backend/pom.xml test

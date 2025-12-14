@@ -1,2 +1,5 @@
 #!/bin/sh
-mvn validate
+set -e
+
+echo "Running backend validation..."
+mvn -f backend/pom.xml validate
