@@ -14,4 +14,6 @@ public interface IDisciplinaRepository {
     Disciplina update(Disciplina disciplina);
 
     void delete(Long id);
+
+    Disciplina findByNome(String nome);
 }

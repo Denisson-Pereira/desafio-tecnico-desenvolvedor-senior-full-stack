@@ -8,9 +8,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.denisson.backend.domain.exceptions.DatabaseException;
 import com.denisson.backend.domain.models.Disciplina;
+import com.denisson.backend.domain.models.Turma;
 import com.denisson.backend.domain.repositories.IDisciplinaRepository;
-
 
 @Repository
 public class DisciplinaRepositoryImpl implements IDisciplinaRepository {
@@ -37,19 +38,26 @@ public class DisciplinaRepositoryImpl implements IDisciplinaRepository {
 
     @Override
     public Disciplina findById(Long id) {
-        String sql = "SELECT * FROM disciplina WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> {
-            Disciplina disciplina = new Disciplina();
-            disciplina.setId(rs.getLong("id"));
-            disciplina.setNome(rs.getString("nome"));
-            return disciplina;
-        });
+        try {
+            String sql = "SELECT * FROM disciplina WHERE id = ?";
+            return jdbcTemplate.queryForObject(sql, new Object[] { id }, (rs, rowNum) -> {
+                Disciplina disciplina = new Disciplina();
+                disciplina.setId(rs.getLong("id"));
+                disciplina.setNome(rs.getString("nome"));
+                return disciplina;
+            });
+        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
+            return null;
+        } catch (Exception e) {
+            throw new DatabaseException("Erro ao buscar disciplina id=" + id, e);
+        }
+
     }
 
     @Override
     public Disciplina save(Disciplina disciplina) {
-        String sql = "INSERT INTO disciplina (id, nome) VALUES (?, ?)";
-        jdbcTemplate.update(sql, disciplina.getId(), disciplina.getNome());
+        String sql = "INSERT INTO disciplina ( nome) VALUES (?)";
+        jdbcTemplate.update(sql, disciplina.getNome());
         return disciplina;
     }
 
@@ -64,5 +72,22 @@ public class DisciplinaRepositoryImpl implements IDisciplinaRepository {
     public void delete(Long id) {
         String sql = "DELETE FROM disciplina WHERE id = ?";
         jdbcTemplate.update(sql, id);
+    }
+
+    @Override
+    public Disciplina findByNome(String nome) {
+        try {
+            String sql = "SELECT * FROM disciplina WHERE nome = ?";
+            return jdbcTemplate.queryForObject(sql, new Object[] { nome }, (rs, rowNum) -> {
+                Disciplina disciplina = new Disciplina();
+                disciplina.setId(rs.getLong("id"));
+                disciplina.setNome(rs.getString("nome"));
+                return disciplina;
+            });
+        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
+            return null;
+        } catch (Exception e) {
+            throw new DatabaseException("Erro ao buscar turma pelo nome", e);
+        }
     }
 }
