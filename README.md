@@ -21,11 +21,14 @@
    - [Clonar Repositório Git](#-clonar-repositório-git)
    - [Acessar Backend](#-acessar-backend)
    - [Rodar a Web](#rodar-a-web)
-4. [Documentação](#-documentação)
-5. [Monitoramento com Prometheus](#monitoramento-com-prometheus)
-6. [Edição](#-edição)   
-7. [Aguarde! Ainda Não Terminou!](#-aguarde-ainda-não-terminou)
-8. [Referências Bibliográficas](#-referências-bibliográficas)
+4. [Executar testes no frontend](#-executar-testes-no-frontend)
+   - [Interativamente](#interativamente)
+   - [Modo headless](#modo-headless)
+5. [Documentação](#-documentação)
+6. [Monitoramento com Prometheus](#monitoramento-com-prometheus)
+7. [Edição](#-edição)   
+8. [Aguarde! Ainda Não Terminou!](#-aguarde-ainda-não-terminou)
+9. [Referências Bibliográficas](#-referências-bibliográficas)
 
 # 📑 Sobre o projeto 
 
@@ -63,6 +66,7 @@ Foi desenvolvido com **Angular 16** usando Angular **CLI** e **Reactive Forms**,
 ![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+[![Cypress](https://img.shields.io/badge/cypress-%2300BFFF.svg?style=for-the-badge&logo=cypress&logoColor=white)](https://www.cypress.io/)
 
 
 # ⚙ Pré-requisitos
@@ -131,6 +135,19 @@ email: user@teste.com
 senha: 123456
 ```
 
+# 🧪 Executar testes no frontend
+
+## Interativamente
+```
+npx cypress open
+```
+
+![Web 1](./assets/testes.gif) 
+
+## Modo headless
+```
+npx cypress run
+```
 
 # 📱 Documentação
 
