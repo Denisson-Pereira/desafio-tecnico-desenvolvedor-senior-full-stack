@@ -14,19 +14,6 @@
     width: 30%;
 }
 
-.login-header {
-    margin-bottom: 40px;
-}
-
-.login-header h1 {
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-
-.login-header p {
-    color: #666;
-}
-
 .form-group {
     margin-bottom: 20px;
 }
@@ -68,48 +55,6 @@ input:focus {
     margin-right: 5px;
 }
 
-button {
-    width: 100%;
-    padding: 14px;
-    border-radius: 12px;
-    border: none;
-    background-color: #6c63ff;
-    color: #fff;
-    font-weight: 600;
-    margin-bottom: 15px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-button:hover {
-    background-color: #574fcf;
-}
-
-.google-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-    color: #444;
-    border: 1px solid #ccc;
-}
-
-.google-btn img {
-    width: 20px;
-    height: 20px;
-    margin-right: 8px;
-}
-
-.signup {
-    text-align: center;
-    font-size: 14px;
-    color: #666;
-}
-
-.signup a {
-    color: #6c63ff;
-    text-decoration: none;
-}
 
 .login-right {
     flex: 1;

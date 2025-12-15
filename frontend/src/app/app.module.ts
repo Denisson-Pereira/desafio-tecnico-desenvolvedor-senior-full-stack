@@ -6,11 +6,15 @@ import { AppComponent } from './app.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoginHeaderComponent } from './components/login-header/login-header.component';
+import { LoginButtonComponent } from './components/login-button/login-button.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
+    LoginHeaderComponent,
+    LoginButtonComponent,
   ],
   imports: [
     BrowserModule,

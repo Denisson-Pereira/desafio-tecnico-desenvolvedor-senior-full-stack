@@ -1,11 +1,6 @@
 <div class="login-page">
   <div class="login-left">
-    <div class="login-header">
-      <h1>Boletim PRO</h1>
-      <p>Bem-vindo de volta. Por favor, insira os dados:</p>
-      <p>E-mail: user@teste.com</p>
-      <p>Senha: 123456</p>
-    </div>
+    <app-login-header></app-login-header>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
@@ -26,7 +21,7 @@
         </div>
       </div>
 
-      <button type="submit">Sign in</button>
+      <app-login-button></app-login-button>
 
     </form>
   </div>

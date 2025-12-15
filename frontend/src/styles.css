@@ -6,3 +6,9 @@
   outline: none;
   font-family: inherit;
 }
+
+:root {
+  --primary-color: #2563eb;
+  --secondary-color: #002d8d;
+  --click-color: #88acfa;
+}
