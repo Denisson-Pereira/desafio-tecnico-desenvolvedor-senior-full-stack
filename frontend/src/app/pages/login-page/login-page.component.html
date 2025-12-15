@@ -8,7 +8,7 @@
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="email">Email address</label>
-        <input id="email" type="email" formControlName="email" placeholder="you@example.com">
+        <input id="email" type="email" required formControlName="email" placeholder="you@example.com">
         <div class="error" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
           <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</small>
           <small *ngIf="loginForm.get('email')?.errors?.['email']">Email is invalid</small>
@@ -17,7 +17,7 @@
 
       <div class="form-group">
         <label for="senha">Password</label>
-        <input id="senha" type="password" formControlName="senha" placeholder="••••••">
+        <input id="senha" required type="password" formControlName="senha" placeholder="••••••">
         <div class="error" *ngIf="loginForm.get('senha')?.touched && loginForm.get('senha')?.invalid">
           <small *ngIf="loginForm.get('senha')?.errors?.['required']">Password is required</small>
           <small *ngIf="loginForm.get('senha')?.errors?.['minlength']">Password must be at least 6 characters</small>

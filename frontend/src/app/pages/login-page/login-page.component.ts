@@ -19,6 +19,11 @@ export class LoginPageComponent {
   }
 
   onSubmit() {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
     const email = this.loginForm.get('email')?.value;
     const senha = this.loginForm.get('senha')?.value;
 
@@ -26,10 +31,11 @@ export class LoginPageComponent {
       alert('Login realizado com sucesso!');
       this.loginError = null;
       this.loginForm.reset();
-      
       this.router.navigate(['/home']);
     } else {
       this.loginError = 'Email ou senha inválidos!';
+      alert('Email ou senha inválidos!');
     }
   }
+
 }
