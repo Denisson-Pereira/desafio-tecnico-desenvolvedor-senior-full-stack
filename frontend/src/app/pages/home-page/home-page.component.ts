@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { IDisciplina } from 'src/app/interfaces/IDisciplina';
 import { ITurma } from 'src/app/interfaces/ITurma';
-import { GetAllDisciplinasServiceService } from 'src/app/services/disciplina/get-all-disciplinas-service.service';
-import { GetAllTurmasServiceService } from 'src/app/services/turma/get-all-turmas-service.service';
-import { GetAllBoletimServiceService } from 'src/app/services/boletim/get-all-boletim-service.service';
+import { GetAllDisciplinasServiceService } from 'src/app/services/disciplina/get-all-disciplinas.service';
+import { GetAllTurmasServiceService } from 'src/app/services/turma/get-all-turmas.service';
+import { GetAllBoletimServiceService } from 'src/app/services/boletim/get-all-boletim.service';
 import { IBoletim } from 'src/app/interfaces/IBoletim';
 import { IBoletimAlunoView } from 'src/app/interfaces/IBoletimAlunoView';
 import { agruparBoletimPorAluno } from 'src/app/utils/agruparBoletimPorAluno';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UpdateNotasDTO } from 'src/app/dtos/UpdateNotasDTO';
-import { CreateAvaliacaoService } from 'src/app/services/avaliacoes/create-avaliacao-service.service';
+import { CreateAvaliacaoService } from 'src/app/services/avaliacoes/create-avaliacao.service';
 import { CreateAvaliacaoDTO } from 'src/app/dtos/CreateAvaliacaoDTO';
 
 @Component({
