@@ -12,17 +12,17 @@
 # 📝 Sumário
 
 1. [Sobre o Projeto](#-sobre-o-projeto)
-   - [Backend](#-backend)
-      - [Stack Tecnológica](#-stack-tecnológica)
-   - [Frontend](#-frontend)
-      - [Stack Tecnológica](#-stack-tecnológica)
+   - [Backend](#backend)
+      - [Stack Back](#stack-back)
+   - [Frontend](#frontend)
+      - [Stack Front](#stack-front)
 2. [Pré-requisitos](#-pré-requisitos)
 3. [Como Executar o Projeto](#-como-executar-o-projeto)
    - [Clonar Repositório Git](#-clonar-repositório-git)
    - [Acessar Backend](#-acessar-backend)
-   - [Rodar a Web](#-rodar-a-web)
+   - [Rodar a Web](#rodar-a-web)
 4. [Documentação](#-documentação)
-5. [Monitoramento com Prometheus](#-monitoramento-com-prometheus)
+5. [Monitoramento com Prometheus](#monitoramento-com-prometheus)
 6. [Edição](#-edição)   
 7. [Aguarde! Ainda Não Terminou!](#-aguarde-ainda-não-terminou)
 8. [Referências Bibliográficas](#-referências-bibliográficas)
@@ -35,9 +35,9 @@ Sistema para registrar notas de alunos por disciplina e turma, com cálculo auto
 
 O projeto foi desenvolvido em **Java 17** com **Spring Boot 3**, seguindo a **Clean Architecture** e utilizando o **padrão Repository** para consultas, garantindo que a lógica de negócio dependa de interfaces e não de implementações, seguindo o **Princípio da Inversão de Dependência**. Cada classe e módulo respeita o **Princípio da Responsabilidade Única**, garantindo que tenham apenas uma responsabilidade clara. O código também é estruturado para ser aberto para extensão e fechado para modificação, seguindo o **Princípio Aberto/Fechado**, e adota práticas para evitar duplicação, seguindo o **DRY** (*Don't Repeat Yourself*).
 
-Além disso, o projeto inclui **rate limiting** para controlar o número de requisições e prevenir ataques, **Docker** para containerização, **pre-commit** com **Git hooks** para execução automática de testes, tratamento de exceções personalizado com foco em regras de domínio, bem como *schema* para criação do banco (**H2**) de dados e **seed** para os dados iniciais. Todo o desenvolvimento segue padrões de **commits padronizados**, garantindo consistência e organização no histórico do projeto.
+Além disso, o projeto inclui **Rate Limiting** para controlar o número de requisições e prevenir ataques, **Docker** para containerização, **Git hooks** com execução automática de testes via *pre-commit*, tratamento de exceções personalizado focado em regras de negócio, além de **schema** para criação do banco (**H2**) e **seed** para dados iniciais. Todo o desenvolvimento segue padrões de commits padronizados para manter consistência e organização do histórico do projeto. Os **Testes** também são executados automaticamente em um **pipeline** de Integração Contínua (**CI**) com **GitHub Actions**, garantindo que todas as alterações sejam validadas.
 
-### Stack Tecnológica
+### Stack back
 
 [![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.java.com/)
 ![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)
@@ -48,18 +48,22 @@ Além disso, o projeto inclui **rate limiting** para controlar o número de requ
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
+[![JUnit 5](https://img.shields.io/badge/junit5-%23A71A28.svg?style=for-the-badge&logo=junit5&logoColor=white)](https://junit.org/junit5/)
+[![Mockito](https://img.shields.io/badge/mockito-%232A4050.svg?style=for-the-badge&logo=mockito&logoColor=white)](https://site.mockito.org/)
+
 
 
 ## Frontend
 
 Foi desenvolvido com **Angular 16** usando Angular **CLI** e **Reactive Forms**, adotando **DTOs** para as requisições e garantindo comunicação consistente com o *back-end*. A interface foi estilizada com **CSS3** e **Media Queries** para responsividade, seguindo o **DRY** e princípios de **Responsabilidade Única**, componentização e separação de preocupações.
 
-### Stack Tecnológica
+### Stack front
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+
 
 # ⚙ Pré-requisitos
 
@@ -79,11 +83,13 @@ Antes de iniciar o projeto, é necessário verificar se o Node.js e o npm estão
 
 # 🚀 Como executar o projeto
 
+
 ## 👯 Clonar repositório git
 
 ```
 git clone https://github.com/Denisson-Pereira/desafio-tecnico-desenvolvedor-senior-full-stack.git
 ```
+
 
 ## 🏧 Acessar Backend
 
@@ -100,6 +106,7 @@ mvn spring-boot:run
 ```
 
 Esse comando irá compilar e rodar a aplicação diretamente no terminal.
+
 
 ## Rodar a Web
 
@@ -124,6 +131,7 @@ email: user@teste.com
 senha: 123456
 ```
 
+
 # 📱 Documentação
 
 Para acessar a documentação da API, basta visitar a URL:
@@ -133,6 +141,7 @@ http://localhost:8080/swagger-ui/index.html
 ```
 
 ![Doc 1](./assets/doc.png) 
+
 
 # Monitoramento com Prometheus
 
@@ -154,6 +163,7 @@ No desenvolvimento deste projeto, foram utilizados os seguintes editores:
 # 🚨 Aguarde! Ainda não terminou!
 
 >Este repositório representa apenas um MVP. Para facilitar o uso, todas as rotas estão públicas e o CORS foi liberado; contudo, em um cenário real, a configuração seria diferente. Para autenticação, seria utilizado o Spring Security, com tokens JWT de curta duração configurados como HttpOnly. Além disso, uma camada extra de segurança seria implementada, incluindo o uso de refresh tokens armazenados no banco de dados. No front-end, o estado do usuário seria gerenciado globalmente, por exemplo, utilizando NgRx.
+
 
 # 📝 Referências Bibliográficas  
 
