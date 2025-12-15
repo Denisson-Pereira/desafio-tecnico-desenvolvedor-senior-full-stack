@@ -139,7 +139,7 @@ export class HomePageComponent {
               alert('Erro de validação: ' + JSON.stringify(err.error));
             }
           } else {
-            alert('Erro ao salvar notas. Tente novamente.');
+            alert('Erro ao salvar notas. Verifique os dados.');
           }
         }
 
